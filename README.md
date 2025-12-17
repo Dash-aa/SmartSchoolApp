@@ -1,4 +1,4 @@
-# Smart School (expanded v2, auth improved, no tests)
+# Smart School
 
 ## Що реалізовано:
 - Головна сторінка з оголошеннями (R1.2) + базова палітра/назва (R1.1)
