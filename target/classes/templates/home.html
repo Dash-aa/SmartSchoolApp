@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title th:text="${schoolName}">Smart School</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<header>
+  <div><strong th:text="${schoolName}">Школа</strong></div>
+  <nav>
+    <a href="/">Головна</a>
+    <a href="/about">Контакти</a>
+
+    <span th:if="${currentUser == null}">
+      <a href="/login">Вхід</a>
+      <a href="/register">Реєстрація</a>
+    </span>
+    <span th:if="${currentUser != null}">
+      <a href="/cabinet">Кабінет</a>
+      <a href="/logout">Вихід</a>
+    </span>
+  </nav>
+</header>
+
+<main>
+  <div class="card">
+    <h2>Оголошення та новини</h2>
+    <small class="muted">Актуальні повідомлення школи (R1.2)</small>
+  </div>
+
+  <div class="card" th:each="a : ${announcements}">
+    <h3 th:text="${a.title}">Заголовок</h3>
+    <p th:text="${a.text}">Текст</p>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Реєстрація</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<header>
+  <div><strong>Smart School</strong></div>
+  <nav>
+    <a href="/">Головна</a>
+    <a href="/login">Вхід</a>
+  </nav>
+</header>
+
+<main>
+  <div class="card">
+    <h2>Реєстрація</h2>
+    <p class="muted">Створення акаунту з вибором ролі (R1.10, R1.13)</p>
+
+    <p class="error" th:if="${formError}" th:text="${formError}"></p>
+
+    <form method="post" th:object="${registerForm}">
+      <div class="form-row">
+        <label>Логін</label>
+        <input th:field="*{login}" placeholder="student_new" />
+        <small class="error" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></small>
+      </div>
+
+      <div class="form-row">
+        <label>ПІБ</label>
+        <input th:field="*{fullName}" placeholder="Глов’як Дар'я" />
+        <small class="error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></small>
+      </div>
+
+      <div class="form-row">
+        <label>Email (необов'язково)</label>
+        <input th:field="*{email}" placeholder="name@school.ua" />
+        <small class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+      </div>
+
+      <div class="form-row">
+        <label>Роль</label>
+        <select th:field="*{role}">
+          <option value="" selected disabled>Оберіть роль</option>
+          <option th:each="r : ${roles}" th:value="${r}" th:text="${r}"></option>
+        </select>
+        <small class="error" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></small>
+      </div>
+
+      <div class="form-row">
+        <label>Пароль</label>
+        <input th:field="*{password}" type="password" placeholder="Напр.: Student!1234" />
+        <small class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+      </div>
+
+      <div class="form-row">
+        <label>Повтор паролю</label>
+        <input th:field="*{confirmPassword}" type="password" />
+        <small class="error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></small>
+      </div>
+
+      <button type="submit">Зареєструватися</button>
+    </form>
+  </div>
+</main>
+</body>
+</html>

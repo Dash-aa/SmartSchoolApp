@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Вхід</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<header>
+  <div><strong>Smart School</strong></div>
+  <nav>
+    <a href="/">Головна</a>
+    <a href="/register">Реєстрація</a>
+  </nav>
+</header>
+
+<main>
+  <div class="card">
+    <h2>Вхід</h2>
+    <p class="muted">Увійдіть, щоб отримати доступ до особистого кабінету (R1.3, R2.2)</p>
+
+    <p class="error" th:if="${authError}" th:text="${authError}"></p>
+
+    <form method="post" th:object="${loginForm}">
+      <div class="form-row">
+        <label>Логін</label>
+        <input th:field="*{login}" placeholder="student1" />
+        <small class="error" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></small>
+      </div>
+
+      <div class="form-row">
+        <label>Пароль</label>
+        <input th:field="*{password}" type="password" placeholder="********" />
+        <small class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+      </div>
+
+      <button type="submit">Увійти</button>
+    </form>
+
+    <div class="card" style="margin-top:14px;">
+      <small class="muted">
+        Демо-акаунти (seed):<br/>
+        admin / Admin!1234 (ADMIN)<br/>
+        teacher_math / Teacher!1234 (TEACHER)<br/>
+        student1 / Student!1234 (STUDENT)
+      </small>
+    </div>
+  </div>
+</main>
+</body>
+</html>
