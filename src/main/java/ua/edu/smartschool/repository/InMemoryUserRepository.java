@@ -1,30 +1,44 @@
 package ua.edu.smartschool.repository;
 
+import org.springframework.stereotype.Repository;
+import ua.edu.smartschool.model.Role;
 import ua.edu.smartschool.model.User;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
-public class InMemoryUserRepository {
+@Repository
+public class InMemoryUserRepository implements UserRepository {
 
-    private final Map<String, User> byLogin = new ConcurrentHashMap<>();
+    private final Map<String, User> storage = new HashMap<>();
 
+    public InMemoryUserRepository() {
+        // seed user for tests/demo
+        storage.put(
+                "student1",
+                new User(
+                        "student1",
+                        "Student!1234",
+                        Role.STUDENT,
+                        "Test Student",
+                        "student1@school.ua"
+                )
+        );
+    }
+
+    @Override
     public Optional<User> findByLogin(String login) {
-        if (login == null) return Optional.empty();
-        return Optional.ofNullable(byLogin.get(login));
+        return Optional.ofNullable(storage.get(login));
     }
 
-    public boolean existsByLogin(String login) {
-        return login != null && byLogin.containsKey(login);
+    @Override
+    public void save(User user) {
+        storage.put(user.getLogin(), user);
     }
 
-    public User save(User user) {
-        byLogin.put(user.getLogin(), user);
-        return user;
-    }
-
-    public int count() {
-        return byLogin.size();
+    @Override
+    public void clear() {
+        storage.clear();
     }
 }
