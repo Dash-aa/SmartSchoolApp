@@ -5,8 +5,8 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 /**
- * DTO-клас для зберігання даних форми входу користувача.
- * Містить логін та пароль, які вводяться у формі авторизації.
+ * DTO-клас для зберігання даних форми входу користувача. Містить логін та пароль, які вводяться у
+ * формі авторизації.
  */
 public class LoginForm {
 

@@ -3,9 +3,8 @@ package ua.edu.smartschool.model;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Клас, що представляє користувача системи SmartSchool.
- * Містить основні дані користувача, такі як логін, роль,
- * хеш пароля, ПІБ та email.
+ * Клас, що представляє користувача системи SmartSchool. Містить основні дані користувача, такі як
+ * логін, роль, хеш пароля, ПІБ та email.
  */
 public class User {
   private static final AtomicLong SEQ = new AtomicLong(1);
@@ -18,8 +17,7 @@ public class User {
   private final String email;
 
   /**
-   * Створює нового користувача.
-   * Ідентифікатор генерується автоматично.
+   * Створює нового користувача. Ідентифікатор генерується автоматично.
    *
    * @param login логін користувача
    * @param passwordHash хеш пароля користувача

@@ -1,9 +1,6 @@
 package ua.edu.smartschool.model;
 
-/**
- * Клас, що представляє оголошення у системі.
- * Містить заголовок та текст оголошення.
- */
+/** Клас, що представляє оголошення у системі. Містить заголовок та текст оголошення. */
 public class Announcement {
   private final String title;
   private final String text;

@@ -8,22 +8,20 @@ import ua.edu.smartschool.model.Role;
 import ua.edu.smartschool.model.User;
 
 /**
- * Реалізація репозиторію користувачів у пам'яті.
- * Використовується для зберігання користувачів без підключення до бази даних.
+ * Реалізація репозиторію користувачів у пам'яті. Використовується для зберігання користувачів без
+ * підключення до бази даних.
  */
 @Repository
 public class InMemoryUserRepository implements UserRepository {
 
   private final Map<String, User> storage = new HashMap<>();
 
-  /**
-   * Створює репозиторій користувачів і додає тестового користувача.
-   */
+  /** Створює репозиторій користувачів і додає тестового користувача. */
   public InMemoryUserRepository() {
     // seed user for tests/demo
     storage.put(
-            "student1",
-            new User("student1", "Student!1234", Role.STUDENT, "Test Student", "student1@school.ua"));
+        "student1",
+        new User("student1", "Student!1234", Role.STUDENT, "Test Student", "student1@school.ua"));
   }
 
   /**
@@ -47,9 +45,7 @@ public class InMemoryUserRepository implements UserRepository {
     storage.put(user.getLogin(), user);
   }
 
-  /**
-   * Очищає всі дані у репозиторії.
-   */
+  /** Очищає всі дані у репозиторії. */
   @Override
   public void clear() {
     storage.clear();

@@ -3,10 +3,7 @@ package ua.edu.smartschool.repository;
 import java.util.Optional;
 import ua.edu.smartschool.model.User;
 
-/**
- * Інтерфейс репозиторію користувачів.
- * Визначає основні операції для роботи з користувачами.
- */
+/** Інтерфейс репозиторію користувачів. Визначає основні операції для роботи з користувачами. */
 public interface UserRepository {
 
   /**
@@ -24,8 +21,6 @@ public interface UserRepository {
    */
   void save(User user);
 
-  /**
-   * Очищає всі дані репозиторію.
-   */
+  /** Очищає всі дані репозиторію. */
   void clear();
 }

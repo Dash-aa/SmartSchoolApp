@@ -15,8 +15,7 @@ import ua.edu.smartschool.service.AnnouncementService;
 import ua.edu.smartschool.service.AuthService;
 
 /**
- * Головний контролер веб-застосунку SmartSchool.
- * Відповідає за обробку запитів на головну сторінку,
+ * Головний контролер веб-застосунку SmartSchool. Відповідає за обробку запитів на головну сторінку,
  * сторінки реєстрації, входу, кабінету користувача та контактів.
  */
 @Controller
@@ -28,9 +27,8 @@ public class MainController {
   private final AuthService authService = new AuthService(userRepository);
 
   /**
-   * Відображає головну сторінку застосунку.
-   * Додає до моделі назву закладу, список актуальних оголошень
-   * та поточного користувача із сесії.
+   * Відображає головну сторінку застосунку. Додає до моделі назву закладу, список актуальних
+   * оголошень та поточного користувача із сесії.
    *
    * @param model модель для передачі даних у шаблон
    * @param session HTTP-сесія користувача
@@ -45,8 +43,8 @@ public class MainController {
   }
 
   /**
-   * Відображає сторінку реєстрації користувача.
-   * Додає до моделі порожню форму реєстрації та доступні ролі.
+   * Відображає сторінку реєстрації користувача. Додає до моделі порожню форму реєстрації та
+   * доступні ролі.
    *
    * @param model модель для передачі даних у шаблон
    * @return ім'я шаблону сторінки реєстрації
@@ -59,8 +57,7 @@ public class MainController {
   }
 
   /**
-   * Обробляє форму реєстрації нового користувача.
-   * Перевіряє валідність введених даних і виконує
+   * Обробляє форму реєстрації нового користувача. Перевіряє валідність введених даних і виконує
    * реєстрацію через сервіс авторизації.
    *
    * @param form форма реєстрації
@@ -70,9 +67,9 @@ public class MainController {
    */
   @PostMapping("/register")
   public String doRegister(
-          @Valid @ModelAttribute("registerForm") RegisterForm form,
-          BindingResult bindingResult,
-          Model model) {
+      @Valid @ModelAttribute("registerForm") RegisterForm form,
+      BindingResult bindingResult,
+      Model model) {
 
     model.addAttribute("roles", Role.values());
 
@@ -89,8 +86,7 @@ public class MainController {
   }
 
   /**
-   * Відображає сторінку входу користувача.
-   * Додає до моделі порожню форму логіну.
+   * Відображає сторінку входу користувача. Додає до моделі порожню форму логіну.
    *
    * @param model модель для передачі даних у шаблон
    * @return ім'я шаблону сторінки входу
@@ -102,8 +98,8 @@ public class MainController {
   }
 
   /**
-   * Обробляє форму входу користувача в систему.
-   * У разі успішної авторизації зберігає користувача в сесії.
+   * Обробляє форму входу користувача в систему. У разі успішної авторизації зберігає користувача в
+   * сесії.
    *
    * @param form форма входу
    * @param bindingResult результат валідації форми
@@ -113,10 +109,10 @@ public class MainController {
    */
   @PostMapping("/login")
   public String doLogin(
-          @Valid @ModelAttribute("loginForm") LoginForm form,
-          BindingResult bindingResult,
-          Model model,
-          HttpSession session) {
+      @Valid @ModelAttribute("loginForm") LoginForm form,
+      BindingResult bindingResult,
+      Model model,
+      HttpSession session) {
 
     if (bindingResult.hasErrors()) {
       return "login";
@@ -133,8 +129,8 @@ public class MainController {
   }
 
   /**
-   * Відображає особистий кабінет користувача.
-   * Якщо користувач не авторизований, виконує редирект на сторінку входу.
+   * Відображає особистий кабінет користувача. Якщо користувач не авторизований, виконує редирект на
+   * сторінку входу.
    *
    * @param model модель для передачі даних у шаблон
    * @param session HTTP-сесія користувача
@@ -151,8 +147,8 @@ public class MainController {
   }
 
   /**
-   * Виконує вихід користувача із системи.
-   * Очищає поточну HTTP-сесію та повертає на головну сторінку.
+   * Виконує вихід користувача із системи. Очищає поточну HTTP-сесію та повертає на головну
+   * сторінку.
    *
    * @param session HTTP-сесія користувача
    * @return редирект на головну сторінку

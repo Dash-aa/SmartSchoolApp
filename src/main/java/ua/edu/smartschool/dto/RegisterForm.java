@@ -8,8 +8,8 @@ import jakarta.validation.constraints.Size;
 import ua.edu.smartschool.model.Role;
 
 /**
- * DTO-клас для зберігання даних форми реєстрації користувача.
- * Містить логін, пароль, повтор пароля, роль, ПІБ та email.
+ * DTO-клас для зберігання даних форми реєстрації користувача. Містить логін, пароль, повтор пароля,
+ * роль, ПІБ та email.
  */
 public class RegisterForm {
 
@@ -21,8 +21,8 @@ public class RegisterForm {
   @NotBlank(message = "Пароль є обов'язковим")
   @Size(min = 8, max = 64, message = "Пароль має бути від 8 до 64 символів")
   @Pattern(
-          regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).+$",
-          message = "Пароль має містити велику/малу літеру, цифру та спецсимвол")
+      regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).+$",
+      message = "Пароль має містити велику/малу літеру, цифру та спецсимвол")
   private String password;
 
   @NotBlank(message = "Повтор паролю є обов'язковим")
