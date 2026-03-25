@@ -18,6 +18,24 @@
 ## Запуск:
 Run `SmartSchoolApplication` і відкрий http://localhost:8080
 
+## 📚 Documentation
+
+### 🇺🇦 Українською
+- [Архітектура](docs/uk/architecture.md)
+- [Бізнес-логіка](docs/uk/business_logic.md)
+- [Взаємодія компонентів](docs/uk/component_interaction.md)
+- [Генерація документації](docs/uk/generate_docs.md)
+- [Linting](docs/uk/linting.md)
+- [Test-Driven Documentation](docs/uk/test_driven_docs.md)
+
+### 🇬🇧 English
+- [Architecture](docs/en/architecture.md)
+- [Business Logic](docs/en/business_logic.md)
+- [Component Interaction](docs/en/component_interaction.md)
+- [Documentation Generation](docs/en/generate_docs.md)
+- [Linting](docs/en/linting.md)
+- [Test-Driven Documentation](docs/en/test_driven_docs.md)
+
 ## Документування коду
 
 У проєкті SmartSchool для документування коду використовується стандарт **Javadoc**.
@@ -37,6 +55,7 @@ Run `SmartSchoolApplication` і відкрий http://localhost:8080
 - якщо метод може викидати винятки, використовувати `@throws`.
 
 Документація має оновлюватися разом зі змінами в коді.
+
 ## Онлайн-документація
 
 Актуальна документація проєкту доступна через GitHub Pages.
