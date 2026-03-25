@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class SmartSchoolApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(SmartSchoolApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(SmartSchoolApplication.class, args);
+  }
 }

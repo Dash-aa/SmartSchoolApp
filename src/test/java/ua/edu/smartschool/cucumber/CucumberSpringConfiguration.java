@@ -6,5 +6,4 @@ import ua.edu.smartschool.SmartSchoolApplication;
 
 @CucumberContextConfiguration
 @SpringBootTest(classes = SmartSchoolApplication.class)
-public class CucumberSpringConfiguration {
-}
+public class CucumberSpringConfiguration {}

@@ -8,60 +8,91 @@ import jakarta.validation.constraints.Size;
 import ua.edu.smartschool.model.Role;
 
 /**
- * DTO-клас для зберігання даних форми реєстрації користувача.
- * Містить логін, пароль, повтор пароля, роль, ПІБ та email.
+ * DTO-клас для зберігання даних форми реєстрації користувача. Містить логін, пароль, повтор пароля,
+ * роль, ПІБ та email.
  */
 public class RegisterForm {
 
-    @NotBlank(message = "Логін є обов'язковим")
-    @Size(min = 3, max = 32, message = "Логін має бути від 3 до 32 символів")
-    @Pattern(regexp = "^[A-Za-z0-9_]+$", message = "Логін може містити лише латиницю, цифри та _")
-    private String login;
+  @NotBlank(message = "Логін є обов'язковим")
+  @Size(min = 3, max = 32, message = "Логін має бути від 3 до 32 символів")
+  @Pattern(regexp = "^[A-Za-z0-9_]+$", message = "Логін може містити лише латиницю, цифри та _")
+  private String login;
 
-    @NotBlank(message = "Пароль є обов'язковим")
-    @Size(min = 8, max = 64, message = "Пароль має бути від 8 до 64 символів")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).+$",
-            message = "Пароль має містити велику/малу літеру, цифру та спецсимвол")
-    private String password;
+  @NotBlank(message = "Пароль є обов'язковим")
+  @Size(min = 8, max = 64, message = "Пароль має бути від 8 до 64 символів")
+  @Pattern(
+      regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).+$",
+      message = "Пароль має містити велику/малу літеру, цифру та спецсимвол")
+  private String password;
 
-    @NotBlank(message = "Повтор паролю є обов'язковим")
-    private String confirmPassword;
+  @NotBlank(message = "Повтор паролю є обов'язковим")
+  private String confirmPassword;
 
-    @NotNull(message = "Роль є обов'язковою")
-    private Role role;
+  @NotNull(message = "Роль є обов'язковою")
+  private Role role;
 
-    @NotBlank(message = "ПІБ є обов'язковим")
-    @Size(min = 3, max = 80, message = "ПІБ має бути від 3 до 80 символів")
-    private String fullName;
+  @NotBlank(message = "ПІБ є обов'язковим")
+  @Size(min = 3, max = 80, message = "ПІБ має бути від 3 до 80 символів")
+  private String fullName;
 
-    @Email(message = "Некоректний email")
-    private String email;
-    /**
-     * Повертає логін користувача, введений у формі.
-     *
-     * @return логін користувача
-     */
-    public String getLogin() { return login; }
+  @Email(message = "Некоректний email")
+  private String email;
 
-    /**
-     * Встановлює логін користувача.
-     *
-     * @param login логін користувача
-     */
-    public void setLogin(String login) { this.login = login; }
+  /**
+   * Повертає логін користувача, введений у формі.
+   *
+   * @return логін користувача
+   */
+  public String getLogin() {
+    return login;
+  }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+  /**
+   * Встановлює логін користувача.
+   *
+   * @param login логін користувача
+   */
+  public void setLogin(String login) {
+    this.login = login;
+  }
 
-    public String getConfirmPassword() { return confirmPassword; }
-    public void setConfirmPassword(String confirmPassword) { this.confirmPassword = confirmPassword; }
+  public String getPassword() {
+    return password;
+  }
 
-    public Role getRole() { return role; }
-    public void setRole(Role role) { this.role = role; }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
+  public String getConfirmPassword() {
+    return confirmPassword;
+  }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+  public void setConfirmPassword(String confirmPassword) {
+    this.confirmPassword = confirmPassword;
+  }
+
+  public Role getRole() {
+    return role;
+  }
+
+  public void setRole(Role role) {
+    this.role = role;
+  }
+
+  public String getFullName() {
+    return fullName;
+  }
+
+  public void setFullName(String fullName) {
+    this.fullName = fullName;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
 }
