@@ -14,6 +14,12 @@ import ua.edu.smartschool.repository.InMemoryUserRepository;
 import ua.edu.smartschool.service.AnnouncementService;
 import ua.edu.smartschool.service.AuthService;
 
+/**
+ * Головний контролер веб-застосунку SmartSchool.
+ * Відповідає за обробку запитів на головну сторінку,
+ * сторінки реєстрації, входу, кабінету користувача та контактів.
+ */
+
 @Controller
 public class MainController {
 
@@ -22,6 +28,15 @@ public class MainController {
     private final InMemoryUserRepository userRepository = new InMemoryUserRepository();
     private final AuthService authService = new AuthService(userRepository);
 
+    /**
+     * Відображає головну сторінку застосунку.
+     * Додає до моделі назву закладу, список актуальних оголошень
+     * та поточного користувача із сесії.
+     *
+     * @param model модель для передачі даних у шаблон
+     * @param session HTTP-сесія користувача
+     * @return ім'я шаблону головної сторінки
+     */
     @GetMapping("/")
     public String home(Model model, HttpSession session) {
         model.addAttribute("schoolName", "Інформаційна система закладу освіти");
@@ -36,7 +51,15 @@ public class MainController {
         model.addAttribute("roles", Role.values());
         return "register";
     }
-
+    /**
+     * Обробляє форму реєстрації нового користувача.
+     * Перевіряє валідність введених даних і виконує реєстрацію через сервіс авторизації.
+     *
+     * @param form форма реєстрації
+     * @param bindingResult результат валідації форми
+     * @param model модель для передачі повідомлень про помилки
+     * @return сторінка реєстрації у випадку помилки або редирект на сторінку входу
+     */
     @PostMapping("/register")
     public String doRegister(@Valid @ModelAttribute("registerForm") RegisterForm form,
                              BindingResult bindingResult,
@@ -61,7 +84,16 @@ public class MainController {
         model.addAttribute("loginForm", new LoginForm());
         return "login";
     }
-
+    /**
+     * Обробляє форму входу користувача в систему.
+     * У разі успішної авторизації зберігає користувача в сесії.
+     *
+     * @param form форма входу
+     * @param bindingResult результат валідації форми
+     * @param model модель для передачі повідомлень про помилки
+     * @param session HTTP-сесія користувача
+     * @return сторінка входу у випадку помилки або редирект до кабінету
+     */
     @PostMapping("/login")
     public String doLogin(@Valid @ModelAttribute("loginForm") LoginForm form,
                           BindingResult bindingResult,

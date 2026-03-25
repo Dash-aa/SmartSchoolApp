@@ -7,6 +7,10 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import ua.edu.smartschool.model.Role;
 
+/**
+ * DTO-клас для зберігання даних форми реєстрації користувача.
+ * Містить логін, пароль, повтор пароля, роль, ПІБ та email.
+ */
 public class RegisterForm {
 
     @NotBlank(message = "Логін є обов'язковим")
@@ -32,8 +36,18 @@ public class RegisterForm {
 
     @Email(message = "Некоректний email")
     private String email;
-
+    /**
+     * Повертає логін користувача, введений у формі.
+     *
+     * @return логін користувача
+     */
     public String getLogin() { return login; }
+
+    /**
+     * Встановлює логін користувача.
+     *
+     * @param login логін користувача
+     */
     public void setLogin(String login) { this.login = login; }
 
     public String getPassword() { return password; }
