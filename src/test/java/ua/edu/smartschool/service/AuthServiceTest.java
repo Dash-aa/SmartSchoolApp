@@ -8,15 +8,27 @@ import ua.edu.smartschool.dto.RegisterForm;
 import ua.edu.smartschool.model.Role;
 import ua.edu.smartschool.repository.InMemoryUserRepository;
 
+/**
+ * Тести для сервісу авторизації.
+ * Демонструють основні сценарії входу та реєстрації користувача.
+ */
 class AuthServiceTest {
 
   private AuthService authService;
 
+  /**
+   * Підготовлює тестове середовище перед кожним тестом.
+   * Створює новий екземпляр сервісу авторизації з in-memory репозиторієм.
+   */
   @BeforeEach
   void setUp() {
     authService = new AuthService(new InMemoryUserRepository());
   }
 
+  /**
+   * Перевіряє, що користувач успішно авторизується
+   * при правильних облікових даних.
+   */
   @Test
   void login_shouldReturnUser_whenCredentialsCorrect() {
     var user = authService.login("student1", "Student!1234");
@@ -24,18 +36,30 @@ class AuthServiceTest {
     assertEquals("student1", user.get().getLogin());
   }
 
+  /**
+   * Перевіряє, що авторизація завершується безуспішно,
+   * якщо пароль введено неправильно.
+   */
   @Test
   void login_shouldReturnEmpty_whenPasswordWrong() {
     var user = authService.login("student1", "Wrong!1234");
     assertTrue(user.isEmpty());
   }
 
+  /**
+   * Перевіряє, що авторизація завершується безуспішно,
+   * якщо користувача з таким логіном не існує.
+   */
   @Test
   void login_shouldReturnEmpty_whenUserNotExists() {
     var user = authService.login("unknown", "Student!1234");
     assertTrue(user.isEmpty());
   }
 
+  /**
+   * Перевіряє, що реєстрація не виконується,
+   * якщо пароль і підтвердження пароля не збігаються.
+   */
   @Test
   void register_shouldFail_whenPasswordsDoNotMatch() {
     RegisterForm form = new RegisterForm();
@@ -50,6 +74,10 @@ class AuthServiceTest {
     assertTrue(error.isPresent());
   }
 
+  /**
+   * Перевіряє успішну реєстрацію користувача
+   * за умови коректно заповнених даних.
+   */
   @Test
   void register_shouldSucceed_whenDataValid() {
     RegisterForm form = new RegisterForm();
