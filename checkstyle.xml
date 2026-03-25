@@ -7,6 +7,8 @@
     <property name="severity" value="warning"/>
 
     <module name="TreeWalker">
+        <module name="JavadocType"/>
+        <module name="JavadocMethod"/>
         <module name="UnusedImports"/>
         <module name="AvoidStarImport"/>
         <module name="NeedBraces"/>
@@ -19,11 +21,6 @@
         <module name="HiddenField"/>
         <module name="SimplifyBooleanExpression"/>
         <module name="OneTopLevelClass"/>
-    </module>
-
-    <module name="JavadocType"/>
-    <module name="JavadocMethod">
-        <property name="scope" value="public"/>
     </module>
 
     <module name="LineLength">
