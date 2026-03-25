@@ -15,7 +15,8 @@ import ua.edu.smartschool.service.AnnouncementService;
 import ua.edu.smartschool.service.AuthService;
 
 /**
- * Головний контролер веб-застосунку SmartSchool. Відповідає за обробку запитів на головну сторінку,
+ * Головний контролер веб-застосунку SmartSchool.
+ * Відповідає за обробку запитів на головну сторінку,
  * сторінки реєстрації, входу, кабінету користувача та контактів.
  */
 @Controller
@@ -27,8 +28,9 @@ public class MainController {
   private final AuthService authService = new AuthService(userRepository);
 
   /**
-   * Відображає головну сторінку застосунку. Додає до моделі назву закладу, список актуальних
-   * оголошень та поточного користувача із сесії.
+   * Відображає головну сторінку застосунку.
+   * Додає до моделі назву закладу, список актуальних оголошень
+   * та поточного користувача із сесії.
    *
    * @param model модель для передачі даних у шаблон
    * @param session HTTP-сесія користувача
@@ -42,6 +44,13 @@ public class MainController {
     return "home";
   }
 
+  /**
+   * Відображає сторінку реєстрації користувача.
+   * Додає до моделі порожню форму реєстрації та доступні ролі.
+   *
+   * @param model модель для передачі даних у шаблон
+   * @return ім'я шаблону сторінки реєстрації
+   */
   @GetMapping("/register")
   public String registerPage(Model model) {
     model.addAttribute("registerForm", new RegisterForm());
@@ -50,7 +59,8 @@ public class MainController {
   }
 
   /**
-   * Обробляє форму реєстрації нового користувача. Перевіряє валідність введених даних і виконує
+   * Обробляє форму реєстрації нового користувача.
+   * Перевіряє валідність введених даних і виконує
    * реєстрацію через сервіс авторизації.
    *
    * @param form форма реєстрації
@@ -60,9 +70,9 @@ public class MainController {
    */
   @PostMapping("/register")
   public String doRegister(
-      @Valid @ModelAttribute("registerForm") RegisterForm form,
-      BindingResult bindingResult,
-      Model model) {
+          @Valid @ModelAttribute("registerForm") RegisterForm form,
+          BindingResult bindingResult,
+          Model model) {
 
     model.addAttribute("roles", Role.values());
 
@@ -78,6 +88,13 @@ public class MainController {
     return "redirect:/login";
   }
 
+  /**
+   * Відображає сторінку входу користувача.
+   * Додає до моделі порожню форму логіну.
+   *
+   * @param model модель для передачі даних у шаблон
+   * @return ім'я шаблону сторінки входу
+   */
   @GetMapping("/login")
   public String loginPage(Model model) {
     model.addAttribute("loginForm", new LoginForm());
@@ -85,8 +102,8 @@ public class MainController {
   }
 
   /**
-   * Обробляє форму входу користувача в систему. У разі успішної авторизації зберігає користувача в
-   * сесії.
+   * Обробляє форму входу користувача в систему.
+   * У разі успішної авторизації зберігає користувача в сесії.
    *
    * @param form форма входу
    * @param bindingResult результат валідації форми
@@ -96,10 +113,10 @@ public class MainController {
    */
   @PostMapping("/login")
   public String doLogin(
-      @Valid @ModelAttribute("loginForm") LoginForm form,
-      BindingResult bindingResult,
-      Model model,
-      HttpSession session) {
+          @Valid @ModelAttribute("loginForm") LoginForm form,
+          BindingResult bindingResult,
+          Model model,
+          HttpSession session) {
 
     if (bindingResult.hasErrors()) {
       return "login";
@@ -115,6 +132,14 @@ public class MainController {
     return "redirect:/cabinet";
   }
 
+  /**
+   * Відображає особистий кабінет користувача.
+   * Якщо користувач не авторизований, виконує редирект на сторінку входу.
+   *
+   * @param model модель для передачі даних у шаблон
+   * @param session HTTP-сесія користувача
+   * @return ім'я шаблону кабінету або редирект на сторінку входу
+   */
   @GetMapping("/cabinet")
   public String cabinet(Model model, HttpSession session) {
     Object u = session.getAttribute("user");
@@ -125,12 +150,25 @@ public class MainController {
     return "cabinet";
   }
 
+  /**
+   * Виконує вихід користувача із системи.
+   * Очищає поточну HTTP-сесію та повертає на головну сторінку.
+   *
+   * @param session HTTP-сесія користувача
+   * @return редирект на головну сторінку
+   */
   @GetMapping("/logout")
   public String logout(HttpSession session) {
     session.invalidate();
     return "redirect:/";
   }
 
+  /**
+   * Відображає сторінку з інформацією про застосунок і контактами.
+   *
+   * @param model модель для передачі даних у шаблон
+   * @return ім'я шаблону сторінки "Про нас"
+   */
   @GetMapping("/about")
   public String about(Model model) {
     model.addAttribute("schoolName", "Інформаційна система закладу освіти");

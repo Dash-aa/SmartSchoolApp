@@ -7,8 +7,9 @@ import ua.edu.smartschool.model.User;
 import ua.edu.smartschool.repository.UserRepository;
 
 /**
- * Сервіс авторизації та реєстрації користувачів. Виконує перевірку облікових даних під час входу та
- * створення нового користувача під час реєстрації.
+ * Сервіс авторизації та реєстрації користувачів.
+ * Виконує перевірку облікових даних під час входу
+ * та створення нового користувача під час реєстрації.
  */
 @Service
 public class AuthService {
@@ -25,23 +26,25 @@ public class AuthService {
   }
 
   /**
-   * Виконує вхід користувача за логіном і паролем.
+   * Виконує авторизацію користувача за логіном і паролем.
+   * Перевіряє наявність користувача та відповідність пароля.
    *
    * @param login логін користувача
    * @param password пароль користувача
-   * @return Optional з користувачем, якщо дані правильні, або порожній Optional
+   * @return Optional з користувачем, якщо авторизація успішна,
+   *         або порожній Optional, якщо дані невірні
    */
   public Optional<User> login(String login, String password) {
     return userRepository.findByLogin(login).filter(u -> u.getPasswordHash().equals(password));
   }
 
   /**
-   * Реєструє нового користувача на основі даних форми. Перевіряє унікальність логіна, наявність
-   * ролі та коректність пароля.
+   * Реєструє нового користувача на основі даних форми.
+   * Виконує перевірку унікальності логіна, ролі та коректності пароля.
    *
    * @param form форма реєстрації користувача
-   * @return Optional з текстом помилки, якщо реєстрація неможлива, або порожній Optional у випадку
-   *     успіху
+   * @return Optional з текстом помилки, якщо реєстрація неможлива,
+   *         або порожній Optional у випадку успішної реєстрації
    */
   public Optional<String> register(RegisterForm form) {
     if (userRepository.findByLogin(form.getLogin()).isPresent()) {
@@ -58,20 +61,20 @@ public class AuthService {
     }
 
     userRepository.save(
-        new User(
-            form.getLogin(),
-            form.getPassword(),
-            form.getRole(),
-            form.getFullName(),
-            form.getEmail()));
+            new User(
+                    form.getLogin(),
+                    form.getPassword(),
+                    form.getRole(),
+                    form.getFullName(),
+                    form.getEmail()));
 
     userRepository.save(
-        new User(
-            form.getLogin(),
-            form.getPassword(),
-            form.getRole(),
-            form.getFullName(),
-            form.getEmail()));
+            new User(
+                    form.getLogin(),
+                    form.getPassword(),
+                    form.getRole(),
+                    form.getFullName(),
+                    form.getEmail()));
     return Optional.empty();
   }
 }

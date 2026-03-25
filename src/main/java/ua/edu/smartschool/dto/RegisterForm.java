@@ -8,8 +8,8 @@ import jakarta.validation.constraints.Size;
 import ua.edu.smartschool.model.Role;
 
 /**
- * DTO-клас для зберігання даних форми реєстрації користувача. Містить логін, пароль, повтор пароля,
- * роль, ПІБ та email.
+ * DTO-клас для зберігання даних форми реєстрації користувача.
+ * Містить логін, пароль, повтор пароля, роль, ПІБ та email.
  */
 public class RegisterForm {
 
@@ -21,8 +21,8 @@ public class RegisterForm {
   @NotBlank(message = "Пароль є обов'язковим")
   @Size(min = 8, max = 64, message = "Пароль має бути від 8 до 64 символів")
   @Pattern(
-      regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).+$",
-      message = "Пароль має містити велику/малу літеру, цифру та спецсимвол")
+          regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).+$",
+          message = "Пароль має містити велику/малу літеру, цифру та спецсимвол")
   private String password;
 
   @NotBlank(message = "Повтор паролю є обов'язковим")
@@ -39,7 +39,7 @@ public class RegisterForm {
   private String email;
 
   /**
-   * Повертає логін користувача, введений у формі.
+   * Повертає логін користувача.
    *
    * @return логін користувача
    */
@@ -56,42 +56,92 @@ public class RegisterForm {
     this.login = login;
   }
 
+  /**
+   * Повертає пароль користувача.
+   *
+   * @return пароль користувача
+   */
   public String getPassword() {
     return password;
   }
 
+  /**
+   * Встановлює пароль користувача.
+   *
+   * @param password пароль користувача
+   */
   public void setPassword(String password) {
     this.password = password;
   }
 
+  /**
+   * Повертає підтвердження пароля.
+   *
+   * @return підтвердження пароля
+   */
   public String getConfirmPassword() {
     return confirmPassword;
   }
 
+  /**
+   * Встановлює підтвердження пароля.
+   *
+   * @param confirmPassword підтвердження пароля
+   */
   public void setConfirmPassword(String confirmPassword) {
     this.confirmPassword = confirmPassword;
   }
 
+  /**
+   * Повертає роль користувача.
+   *
+   * @return роль користувача
+   */
   public Role getRole() {
     return role;
   }
 
+  /**
+   * Встановлює роль користувача.
+   *
+   * @param role роль користувача
+   */
   public void setRole(Role role) {
     this.role = role;
   }
 
+  /**
+   * Повертає повне ім'я користувача.
+   *
+   * @return повне ім'я користувача
+   */
   public String getFullName() {
     return fullName;
   }
 
+  /**
+   * Встановлює повне ім'я користувача.
+   *
+   * @param fullName повне ім'я користувача
+   */
   public void setFullName(String fullName) {
     this.fullName = fullName;
   }
 
+  /**
+   * Повертає email користувача.
+   *
+   * @return email користувача
+   */
   public String getEmail() {
     return email;
   }
 
+  /**
+   * Встановлює email користувача.
+   *
+   * @param email email користувача
+   */
   public void setEmail(String email) {
     this.email = email;
   }
