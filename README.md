@@ -15,10 +15,7 @@
 - teacher_math / Teacher!1234 (TEACHER)
 - student1 / Student!1234 (STUDENT)
 
-## Запуск:
-Run `SmartSchoolApplication` і відкрий http://localhost:8080
-
-## 📚 Documentation
+## Документація/Documentation
 
 ### 🇺🇦 Українською
 - [Архітектура](docs/uk/architecture.md)
@@ -61,3 +58,33 @@ Run `SmartSchoolApplication` і відкрий http://localhost:8080
 Актуальна документація проєкту доступна через GitHub Pages.
 Вона автоматично оновлюється після змін у гілці `main`.
 ![Docs](https://dash-aa.github.io/SmartSchoolApp/)
+
+## Getting Started (Developer Guide)
+Ця інструкція дозволяє новому розробнику запустити проєкт з нуля.
+
+**Вимоги:**
+Перед початком переконайтесь, що встановлено:
+- Java JDK 21
+- Maven
+- Git
+- IDE (IntelliJ IDEA / VS Code)
+
+**Клонування репозиторію:**
+git clone https://github.com/Dash-aa/SmartSchoolApp.git
+cd SmartSchoolApp
+
+**Встановлення залежностей**
+mvn clean install
+
+**Запуск проєкту**
+mvn spring-boot:run
+Або запустіть клас SmartSchoolApplication з IDE.
+
+**Доступ до застосунку**
+Після запуску відкрийте у браузері:
+http://localhost:8080
+
+**Основні команди**
+Збірка проєкту: mvn clean package
+Запуск тестів: mvn test
+Повна перевірка: mvn clean verify
