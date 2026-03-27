@@ -88,3 +88,15 @@ http://localhost:8080
 Збірка проєкту: mvn clean package
 Запуск тестів: mvn test
 Повна перевірка: mvn clean verify
+
+## Scripts
+
+Для спрощення запуску доступні скрипти:
+
+### Windows
+- run-dev.bat — запуск у режимі розробки
+- run-prod.bat — запуск у production
+
+### Linux / Mac
+- run-dev.sh
+- run-prod.sh
