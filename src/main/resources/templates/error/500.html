@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Помилка сервера</title>
+</head>
+<body>
+<h1>Сталася помилка</h1>
+<p th:text="${message}">Сталася внутрішня помилка. Спробуйте пізніше.</p>
+<p th:text="${details}">Якщо помилка повторюється, зверніться до адміністратора.</p>
+<p>
+    Код помилки:
+    <strong th:text="${errorId}">невідомо</strong>
+</p>
+<a href="/">Повернутися на головну сторінку</a>
+</body>
+</html>
