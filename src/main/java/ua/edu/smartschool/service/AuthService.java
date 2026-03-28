@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ua.edu.smartschool.dto.RegisterForm;
 import ua.edu.smartschool.model.User;
 import ua.edu.smartschool.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Сервіс авторизації та реєстрації користувачів. Виконує перевірку облікових даних під час входу та
@@ -12,6 +14,8 @@ import ua.edu.smartschool.repository.UserRepository;
  */
 @Service
 public class AuthService {
+
+  private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
   private final UserRepository userRepository;
 
@@ -34,7 +38,18 @@ public class AuthService {
    *     невірні
    */
   public Optional<User> login(String login, String password) {
-    return userRepository.findByLogin(login).filter(u -> u.getPasswordHash().equals(password));
+    logger.debug("Перевірка користувача {}", login);
+
+    Optional<User> user =
+            userRepository.findByLogin(login).filter(u -> u.getPasswordHash().equals(password));
+
+    if (user.isPresent()) {
+      logger.info("Користувач {} успішно авторизований", login);
+    } else {
+      logger.warn("Невдала спроба входу для користувача {}", login);
+    }
+
+    return user;
   }
 
   /**
@@ -46,34 +61,37 @@ public class AuthService {
    *     успішної реєстрації
    */
   public Optional<String> register(RegisterForm form) {
+    logger.info("Початок реєстрації користувача {}", form.getLogin());
+
     if (userRepository.findByLogin(form.getLogin()).isPresent()) {
-      return Optional.of("Login already exists");
+      logger.warn("Спроба повторної реєстрації користувача {}", form.getLogin());
+      return Optional.of("Користувач із таким логіном уже існує");
     }
+
     if (form.getRole() == null) {
-      return Optional.of("Role is required");
+      logger.warn("Не вказано роль для користувача {}", form.getLogin());
+      return Optional.of("Роль є обов’язковою");
     }
+
     if (form.getPassword() == null || form.getConfirmPassword() == null) {
-      return Optional.of("Password is required");
+      logger.warn("Не вказано пароль для користувача {}", form.getLogin());
+      return Optional.of("Пароль є обов’язковим");
     }
+
     if (!form.getPassword().equals(form.getConfirmPassword())) {
-      return Optional.of("Passwords do not match");
+      logger.warn("Паролі не збігаються для користувача {}", form.getLogin());
+      return Optional.of("Паролі не збігаються");
     }
 
     userRepository.save(
-        new User(
-            form.getLogin(),
-            form.getPassword(),
-            form.getRole(),
-            form.getFullName(),
-            form.getEmail()));
+            new User(
+                    form.getLogin(),
+                    form.getPassword(),
+                    form.getRole(),
+                    form.getFullName(),
+                    form.getEmail()));
 
-    userRepository.save(
-        new User(
-            form.getLogin(),
-            form.getPassword(),
-            form.getRole(),
-            form.getFullName(),
-            form.getEmail()));
+    logger.info("Користувача {} успішно зареєстровано", form.getLogin());
     return Optional.empty();
   }
 }

@@ -13,6 +13,8 @@ import ua.edu.smartschool.model.User;
 import ua.edu.smartschool.repository.InMemoryUserRepository;
 import ua.edu.smartschool.service.AnnouncementService;
 import ua.edu.smartschool.service.AuthService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Головний контролер веб-застосунку SmartSchool. Відповідає за обробку запитів на головну сторінку,
@@ -20,6 +22,9 @@ import ua.edu.smartschool.service.AuthService;
  */
 @Controller
 public class MainController {
+
+  // Логер для відстеження подій контролера
+  private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
   private final AnnouncementService announcementService = new AnnouncementService();
 
@@ -36,6 +41,7 @@ public class MainController {
    */
   @GetMapping("/")
   public String home(Model model, HttpSession session) {
+    logger.info("Відкрито головну сторінку");
     model.addAttribute("schoolName", "Інформаційна система закладу освіти");
     model.addAttribute("announcements", announcementService.getActualAnnouncements());
     model.addAttribute("currentUser", session.getAttribute("user"));
@@ -51,6 +57,7 @@ public class MainController {
    */
   @GetMapping("/register")
   public String registerPage(Model model) {
+    logger.info("Відкрито сторінку реєстрації");
     model.addAttribute("registerForm", new RegisterForm());
     model.addAttribute("roles", Role.values());
     return "register";
@@ -70,18 +77,21 @@ public class MainController {
       @Valid @ModelAttribute("registerForm") RegisterForm form,
       BindingResult bindingResult,
       Model model) {
-
+    logger.info("Спроба реєстрації користувача {}", form.getLogin());
     model.addAttribute("roles", Role.values());
 
     if (bindingResult.hasErrors()) {
+      logger.warn("Помилка валідації при реєстрації {}", form.getLogin());
       return "register";
     }
 
     var error = authService.register(form);
     if (error.isPresent()) {
+      logger.warn("Помилка реєстрації {}: {}", form.getLogin(), error.get());
       model.addAttribute("formError", error.get());
       return "register";
     }
+    logger.info("Користувача {} успішно зареєстровано", form.getLogin());
     return "redirect:/login";
   }
 
@@ -93,6 +103,7 @@ public class MainController {
    */
   @GetMapping("/login")
   public String loginPage(Model model) {
+    logger.info("Відкрито сторінку входу");
     model.addAttribute("loginForm", new LoginForm());
     return "login";
   }
@@ -113,17 +124,19 @@ public class MainController {
       BindingResult bindingResult,
       Model model,
       HttpSession session) {
-
+    logger.debug("Спроба входу користувача {}", form.getLogin());
     if (bindingResult.hasErrors()) {
+      logger.warn("Помилка валідації при вході {}", form.getLogin());
       return "login";
     }
 
     var userOpt = authService.login(form.getLogin(), form.getPassword());
     if (userOpt.isEmpty()) {
+      logger.warn("Невдала спроба входу {}", form.getLogin());
       model.addAttribute("authError", "Невірний логін або пароль");
       return "login";
     }
-
+    logger.info("Користувач {} увійшов у систему", form.getLogin());
     session.setAttribute("user", userOpt.get());
     return "redirect:/cabinet";
   }
@@ -140,8 +153,10 @@ public class MainController {
   public String cabinet(Model model, HttpSession session) {
     Object u = session.getAttribute("user");
     if (u == null) {
+      logger.warn("Спроба доступу до кабінету без авторизації");
       return "redirect:/login";
     }
+    logger.info("Відкрито кабінет користувача");
     model.addAttribute("user", (User) u);
     return "cabinet";
   }
@@ -155,6 +170,7 @@ public class MainController {
    */
   @GetMapping("/logout")
   public String logout(HttpSession session) {
+    logger.info("Користувач вийшов із системи");
     session.invalidate();
     return "redirect:/";
   }
@@ -167,6 +183,7 @@ public class MainController {
    */
   @GetMapping("/about")
   public String about(Model model) {
+    logger.info("Відкрито сторінку 'Про нас'");
     model.addAttribute("schoolName", "Інформаційна система закладу освіти");
     model.addAttribute("contacts", "Email: office@school.ua, Тел: +38(000)000-00-00");
     return "about";
