@@ -1,12 +1,12 @@
 package ua.edu.smartschool.service;
 
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ua.edu.smartschool.dto.RegisterForm;
 import ua.edu.smartschool.model.User;
 import ua.edu.smartschool.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Сервіс авторизації та реєстрації користувачів. Виконує перевірку облікових даних під час входу та
@@ -41,7 +41,7 @@ public class AuthService {
     logger.debug("Перевірка користувача {}", login);
 
     Optional<User> user =
-            userRepository.findByLogin(login).filter(u -> u.getPasswordHash().equals(password));
+        userRepository.findByLogin(login).filter(u -> u.getPasswordHash().equals(password));
 
     if (user.isPresent()) {
       logger.info("Користувач {} успішно авторизований", login);
@@ -84,12 +84,12 @@ public class AuthService {
     }
 
     userRepository.save(
-            new User(
-                    form.getLogin(),
-                    form.getPassword(),
-                    form.getRole(),
-                    form.getFullName(),
-                    form.getEmail()));
+        new User(
+            form.getLogin(),
+            form.getPassword(),
+            form.getRole(),
+            form.getFullName(),
+            form.getEmail()));
 
     logger.info("Користувача {} успішно зареєстровано", form.getLogin());
     return Optional.empty();

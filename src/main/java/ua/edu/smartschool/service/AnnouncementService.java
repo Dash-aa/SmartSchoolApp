@@ -1,10 +1,9 @@
 package ua.edu.smartschool.service;
 
 import java.util.List;
-import ua.edu.smartschool.model.Announcement;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ua.edu.smartschool.model.Announcement;
 
 /**
  * Сервіс для роботи з оголошеннями. Надає список актуальних оголошень для відображення у

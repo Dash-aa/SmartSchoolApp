@@ -6,10 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/**
- * Головний клас застосунку SmartSchool
- * Виконує запуск і завершення програми
- */
+/** Головний клас застосунку SmartSchool Виконує запуск і завершення програми */
 @SpringBootApplication
 public class SmartSchoolApplication {
 

@@ -2,6 +2,8 @@ package ua.edu.smartschool.controller;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,8 +15,6 @@ import ua.edu.smartschool.model.User;
 import ua.edu.smartschool.repository.InMemoryUserRepository;
 import ua.edu.smartschool.service.AnnouncementService;
 import ua.edu.smartschool.service.AuthService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Головний контролер веб-застосунку SmartSchool. Відповідає за обробку запитів на головну сторінку,
