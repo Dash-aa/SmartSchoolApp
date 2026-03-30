@@ -18,11 +18,13 @@ public class AnnouncementService {
    *
    * @return список оголошень
    */
+  private static final List<Announcement> ACTUAL_ANNOUNCEMENTS =
+          List.of(
+                  new Announcement("Початок навчального семестру", "Навчальний семестр розпочинається 1 вересня."),
+                  new Announcement("Олімпіада з програмування", "Реєстрація на олімпіаду триває до 15 жовтня."),
+                  new Announcement("Батьківські збори", "Збори відбудуться у п’ятницю о 18:00."));
+
   public List<Announcement> getActualAnnouncements() {
-    logger.info("Отримання списку актуальних оголошень");
-    return List.of(
-        new Announcement("Збори", "Збори учнів о 15:00"),
-        new Announcement("Контрольна", "Контрольна з математики у пʼятницю"),
-        new Announcement("Оновлення розкладу", "Перевірте розклад на понеділок"));
+    return ACTUAL_ANNOUNCEMENTS;
   }
 }

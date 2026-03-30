@@ -41,7 +41,7 @@ public class AuthService {
     logger.debug("Перевірка користувача {}", login);
 
     Optional<User> user =
-        userRepository.findByLogin(login).filter(u -> u.getPasswordHash().equals(password));
+            userRepository.findByLogin(login).filter(u -> u.getPasswordHash().equals(password));
 
     if (user.isPresent()) {
       logger.info("Користувач {} успішно авторизований", login);
@@ -63,35 +63,41 @@ public class AuthService {
   public Optional<String> register(RegisterForm form) {
     logger.info("Початок реєстрації користувача {}", form.getLogin());
 
-    if (userRepository.findByLogin(form.getLogin()).isPresent()) {
-      logger.warn("Спроба повторної реєстрації користувача {}", form.getLogin());
+    String login = form.getLogin();
+    String password = form.getPassword();
+    String confirmPassword = form.getConfirmPassword();
+
+    if (userRepository.findByLogin(login).isPresent()) {
+      logger.warn("Спроба повторної реєстрації користувача {}", login);
       return Optional.of("Користувач із таким логіном уже існує");
     }
 
     if (form.getRole() == null) {
-      logger.warn("Не вказано роль для користувача {}", form.getLogin());
-      return Optional.of("Роль є обов’язковою");
+      logger.warn("Не вказано роль для користувача {}", login);
+      return Optional.of("Необхідно обрати роль користувача");
     }
 
-    if (form.getPassword() == null || form.getConfirmPassword() == null) {
-      logger.warn("Не вказано пароль для користувача {}", form.getLogin());
-      return Optional.of("Пароль є обов’язковим");
+    if (password == null || confirmPassword == null) {
+      logger.warn("Не вказано пароль для користувача {}", login);
+      return Optional.of("Пароль і підтвердження пароля є обов’язковими");
     }
 
-    if (!form.getPassword().equals(form.getConfirmPassword())) {
-      logger.warn("Паролі не збігаються для користувача {}", form.getLogin());
-      return Optional.of("Паролі не збігаються");
+    if (!password.equals(confirmPassword)) {
+      logger.warn("Паролі не збігаються для користувача {}", login);
+      return Optional.of("Пароль і підтвердження пароля не збігаються");
     }
 
-    userRepository.save(
-        new User(
-            form.getLogin(),
-            form.getPassword(),
-            form.getRole(),
-            form.getFullName(),
-            form.getEmail()));
+    User user =
+            new User(
+                    login,
+                    password,
+                    form.getRole(),
+                    form.getFullName(),
+                    form.getEmail());
 
-    logger.info("Користувача {} успішно зареєстровано", form.getLogin());
+    userRepository.save(user);
+
+    logger.info("Користувача {} успішно зареєстровано", login);
     return Optional.empty();
   }
 }
