@@ -1,38 +1,112 @@
 <!DOCTYPE html>
-<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<html lang="uk" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
 <head>
-  <meta charset="UTF-8" />
-  <title th:text="${schoolName}">Smart School</title>
-  <link rel="stylesheet" href="/css/style.css" />
+  <title>Головна — SmartSchool</title>
 </head>
 <body>
-<header>
-  <div><strong th:text="${schoolName}">Школа</strong></div>
-  <nav>
-    <a href="/">Головна</a>
-    <a href="/about">Контакти</a>
 
-    <span th:if="${currentUser == null}">
-      <a href="/login">Вхід</a>
-      <a href="/register">Реєстрація</a>
-    </span>
-    <span th:if="${currentUser != null}">
-      <a href="/cabinet">Кабінет</a>
-      <a href="/logout">Вихід</a>
-    </span>
-  </nav>
-</header>
+<div layout:fragment="content">
 
-<main>
-  <div class="card">
-    <h2>Оголошення та новини</h2>
-    <small class="muted">Актуальні повідомлення школи (R1.2)</small>
+  <!-- ═══════════════════════════════════
+       HERO-секція (вітання)
+       ═══════════════════════════════════ -->
+  <div class="hero-card mb-4">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <h1 class="mb-2">
+          <i class="bi bi-mortarboard-fill me-2"></i>
+          <span th:text="${schoolName}">Інформаційна система закладу освіти</span>
+        </h1>
+        <p class="fs-5 mb-0">
+          Єдина платформа для навчання, оцінювання та комунікації
+        </p>
+      </div>
+      <div class="col-md-4 text-md-end mt-3 mt-md-0" th:if="${currentUser == null}">
+        <a th:href="@{/login}" class="btn btn-light btn-lg fw-semibold me-2">
+          <i class="bi bi-box-arrow-in-right me-1"></i> Увійти
+        </a>
+      </div>
+      <div class="col-md-4 text-md-end mt-3 mt-md-0" th:if="${currentUser != null}">
+        <a th:href="@{/cabinet}" class="btn btn-light btn-lg fw-semibold">
+          <i class="bi bi-grid me-1"></i> До кабінету
+        </a>
+      </div>
+    </div>
   </div>
 
-  <div class="card" th:each="a : ${announcements}">
-    <h3 th:text="${a.title}">Заголовок</h3>
-    <p th:text="${a.text}">Текст</p>
+  <!-- ═══════════════════════════════════
+       ШВИДКА ІНФОРМАЦІЯ (3 картки)
+       ═══════════════════════════════════ -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="bi bi-calendar3 fs-1 text-primary"></i>
+          <h3 class="mt-2">Розклад</h3>
+          <p class="text-muted mb-0">Завжди актуальний розклад занять онлайн</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="bi bi-journal-bookmark-fill fs-1 text-primary"></i>
+          <h3 class="mt-2">Електронний щоденник</h3>
+          <p class="text-muted mb-0">Оцінки, домашні завдання та статистика</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="bi bi-chat-dots-fill fs-1 text-primary"></i>
+          <h3 class="mt-2">Комунікація</h3>
+          <p class="text-muted mb-0">Повідомлення між учнями та вчителями</p>
+        </div>
+      </div>
+    </div>
   </div>
-</main>
+
+  <!-- ═══════════════════════════════════
+       ОГОЛОШЕННЯ
+       ═══════════════════════════════════ -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">
+      <i class="bi bi-megaphone-fill text-primary me-2"></i>
+      Оголошення та новини
+    </h2>
+    <span class="text-muted small" th:if="${announcements != null and !announcements.isEmpty()}">
+            <i class="bi bi-clock me-1"></i>
+            Актуальні новини школи
+        </span>
+  </div>
+
+  <!-- Список оголошень -->
+  <div th:if="${announcements != null and !announcements.isEmpty()}">
+    <div th:each="a : ${announcements}" class="card announcement-card mb-3">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start mb-2 flex-wrap">
+          <h3 class="mb-0" th:text="${a.title}">Заголовок</h3>
+          <span class="badge-date">
+                        <i class="bi bi-calendar3 me-1"></i> Сьогодні
+                    </span>
+        </div>
+        <p class="mb-0 text-muted" th:text="${a.text}">Текст оголошення</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Якщо немає оголошень -->
+  <div th:if="${announcements == null or announcements.isEmpty()}" class="card">
+    <div class="card-body empty-state">
+      <i class="bi bi-inbox"></i>
+      <p class="mb-0">Поки що немає актуальних оголошень</p>
+    </div>
+  </div>
+
+</div>
+
 </body>
 </html>

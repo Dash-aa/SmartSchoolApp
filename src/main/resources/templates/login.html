@@ -1,51 +1,76 @@
 <!DOCTYPE html>
-<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<html lang="uk" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
 <head>
-  <meta charset="UTF-8" />
-  <title>Вхід</title>
-  <link rel="stylesheet" href="/css/style.css" />
+  <title>Вхід — SmartSchool</title>
 </head>
 <body>
-<header>
-  <div><strong>Smart School</strong></div>
-  <nav>
-    <a href="/">Головна</a>
-    <a href="/register">Реєстрація</a>
-  </nav>
-</header>
 
-<main>
-  <div class="card">
-    <h2>Вхід</h2>
-    <p class="muted">Увійдіть, щоб отримати доступ до особистого кабінету (R1.3, R2.2)</p>
+<div layout:fragment="content">
 
-    <p class="error" th:if="${authError}" th:text="${authError}"></p>
+  <div class="form-card">
+    <div class="text-center mb-4">
+      <i class="bi bi-person-circle fs-1 text-primary"></i>
+    </div>
+
+    <h2>Вхід до системи</h2>
+    <p class="subtitle">Увійдіть, щоб отримати доступ до особистого кабінету</p>
+
+    <!-- Помилка авторизації -->
+    <div th:if="${authError}" class="alert alert-danger d-flex align-items-center" role="alert">
+      <i class="bi bi-exclamation-circle-fill me-2"></i>
+      <span th:text="${authError}">Невірний логін або пароль</span>
+    </div>
 
     <form method="post" th:object="${loginForm}">
-      <div class="form-row">
-        <label>Логін</label>
-        <input th:field="*{login}" placeholder="student1" />
-        <small class="error" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></small>
+
+      <div class="mb-3">
+        <label class="form-label">
+          <i class="bi bi-person me-1"></i> Логін
+        </label>
+        <input type="text"
+               class="form-control"
+               th:field="*{login}"
+               placeholder="Введіть ваш логін"
+               autofocus />
+        <small class="text-danger d-block mt-1"
+               th:if="${#fields.hasErrors('login')}"
+               th:errors="*{login}"></small>
       </div>
 
-      <div class="form-row">
-        <label>Пароль</label>
-        <input th:field="*{password}" type="password" placeholder="********" />
-        <small class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+      <div class="mb-4">
+        <label class="form-label">
+          <i class="bi bi-lock me-1"></i> Пароль
+        </label>
+        <input type="password"
+               class="form-control"
+               th:field="*{password}"
+               placeholder="••••••••" />
+        <small class="text-danger d-block mt-1"
+               th:if="${#fields.hasErrors('password')}"
+               th:errors="*{password}"></small>
       </div>
 
-      <button type="submit">Увійти</button>
+      <button type="submit" class="btn btn-primary w-100 btn-lg">
+        <i class="bi bi-box-arrow-in-right me-2"></i> Увійти
+      </button>
     </form>
 
-    <div class="card" style="margin-top:14px;">
-      <small class="muted">
-        Демо-акаунти (seed):<br/>
-        admin / Admin!1234 (ADMIN)<br/>
-        teacher_math / Teacher!1234 (TEACHER)<br/>
-        student1 / Student!1234 (STUDENT)
+    <hr class="my-4">
+
+    <div class="text-center">
+      <small class="text-muted">
+        Ще не маєте облікового запису?
       </small>
+      <br>
+      <a th:href="@{/register}" class="text-decoration-none fw-semibold">
+        Зареєструватися
+      </a>
     </div>
   </div>
-</main>
+
+</div>
+
 </body>
 </html>

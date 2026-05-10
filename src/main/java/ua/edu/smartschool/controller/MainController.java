@@ -7,29 +7,39 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import ua.edu.smartschool.dto.LoginForm;
 import ua.edu.smartschool.dto.RegisterForm;
 import ua.edu.smartschool.model.Role;
 import ua.edu.smartschool.model.User;
-import ua.edu.smartschool.repository.InMemoryUserRepository;
 import ua.edu.smartschool.service.AnnouncementService;
 import ua.edu.smartschool.service.AuthService;
 
 /**
- * Головний контролер веб-застосунку SmartSchool. Відповідає за обробку запитів на головну сторінку,
- * сторінки реєстрації, входу, кабінету користувача та контактів.
+ * Головний контролер вебзастосунку SmartSchool. Відповідає за обробку запитів на головну сторінку,
+ * сторінки реєстрації, входу, кабінету користувача та контактів. Використовує Spring Dependency
+ * Injection для отримання сервісів.
  */
 @Controller
 public class MainController {
 
-  // Логер для відстеження подій контролера
   private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
-  private final AnnouncementService announcementService = new AnnouncementService();
+  private final AnnouncementService announcementService;
+  private final AuthService authService;
 
-  private final InMemoryUserRepository userRepository = new InMemoryUserRepository();
-  private final AuthService authService = new AuthService(userRepository);
+  /**
+   * Створює контролер з впровадженням залежностей через конструктор.
+   *
+   * @param announcementService сервіс для роботи з оголошеннями
+   * @param authService сервіс авторизації та реєстрації
+   */
+  public MainController(AnnouncementService announcementService, AuthService authService) {
+    this.announcementService = announcementService;
+    this.authService = authService;
+  }
 
   /**
    * Відображає головну сторінку застосунку. Додає до моделі назву закладу, список актуальних
@@ -49,8 +59,7 @@ public class MainController {
   }
 
   /**
-   * Відображає сторінку реєстрації користувача. Додає до моделі порожню форму реєстрації та
-   * доступні ролі.
+   * Відображає сторінку реєстрації користувача.
    *
    * @param model модель для передачі даних у шаблон
    * @return ім'я шаблону сторінки реєстрації
@@ -64,8 +73,7 @@ public class MainController {
   }
 
   /**
-   * Обробляє форму реєстрації нового користувача. Перевіряє валідність введених даних і виконує
-   * реєстрацію через сервіс авторизації.
+   * Обробляє форму реєстрації нового користувача.
    *
    * @param form форма реєстрації
    * @param bindingResult результат валідації форми
@@ -96,7 +104,7 @@ public class MainController {
   }
 
   /**
-   * Відображає сторінку входу користувача. Додає до моделі порожню форму логіну.
+   * Відображає сторінку входу користувача.
    *
    * @param model модель для передачі даних у шаблон
    * @return ім'я шаблону сторінки входу
@@ -109,8 +117,7 @@ public class MainController {
   }
 
   /**
-   * Обробляє форму входу користувача в систему. У разі успішної авторизації зберігає користувача в
-   * сесії.
+   * Обробляє форму входу користувача в систему.
    *
    * @param form форма входу
    * @param bindingResult результат валідації форми
@@ -142,8 +149,7 @@ public class MainController {
   }
 
   /**
-   * Відображає особистий кабінет користувача. Якщо користувач не авторизований, виконує редирект на
-   * сторінку входу.
+   * Відображає особистий кабінет користувача.
    *
    * @param model модель для передачі даних у шаблон
    * @param session HTTP-сесія користувача
@@ -162,8 +168,7 @@ public class MainController {
   }
 
   /**
-   * Виконує вихід користувача із системи. Очищає поточну HTTP-сесію та повертає на головну
-   * сторінку.
+   * Виконує вихід користувача із системи.
    *
    * @param session HTTP-сесія користувача
    * @return редирект на головну сторінку

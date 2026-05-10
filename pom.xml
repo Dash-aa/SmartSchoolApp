@@ -7,6 +7,9 @@
 
   <modelVersion>4.0.0</modelVersion>
 
+  <!-- ═══════════════════════════════════════════════════════════
+       PARENT — Spring Boot Starter Parent
+       ═══════════════════════════════════════════════════════════ -->
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -14,46 +17,99 @@
     <relativePath/>
   </parent>
 
+  <!-- ═══════════════════════════════════════════════════════════
+       PROJECT INFO
+       ═══════════════════════════════════════════════════════════ -->
   <groupId>ua.edu</groupId>
   <artifactId>smart-school</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <name>SmartSchool</name>
+  <description>Веборієнтована інформаційна система електронного супроводу освітнього процесу</description>
 
   <properties>
     <java.version>21</java.version>
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+  <!-- ═══════════════════════════════════════════════════════════
+       DEPENDENCIES
+       ═══════════════════════════════════════════════════════════ -->
   <dependencies>
 
-    <!-- Spring Security Crypto (password hashing) -->
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-crypto</artifactId>
-    </dependency>
-
-    <!-- WEB / Controllers -->
+    <!-- ────────────────────────────────────────────────
+         Spring Boot Web — серверна частина та контролери
+         ──────────────────────────────────────────────── -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
-    <!-- Validation -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-validation</artifactId>
-    </dependency>
-
+    <!-- ────────────────────────────────────────────────
+         Thymeleaf — шаблонізатор для клієнтської частини
+         ──────────────────────────────────────────────── -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
     </dependency>
 
     <dependency>
+      <groupId>nz.net.ultraq.thymeleaf</groupId>
+      <artifactId>thymeleaf-layout-dialect</artifactId>
+    </dependency>
+
+    <!-- ────────────────────────────────────────────────
+         Spring Data JPA — об'єктно-реляційне відображення
+         ──────────────────────────────────────────────── -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+
+    <!-- ────────────────────────────────────────────────
+         H2 Database — вбудована реляційна БД
+         ──────────────────────────────────────────────── -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- ────────────────────────────────────────────────
+         Spring Security Crypto — хешування паролів (BCrypt)
+         ──────────────────────────────────────────────── -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-crypto</artifactId>
+    </dependency>
+
+    <!-- ────────────────────────────────────────────────
+         Validation — валідація форм
+         ──────────────────────────────────────────────── -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
+    <!-- ────────────────────────────────────────────────
+         Actuator — моніторинг застосунку
+         ──────────────────────────────────────────────── -->
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
 
+    <!-- ════════════════════════════════════════════════
+         ТЕСТУВАННЯ
+         ════════════════════════════════════════════════ -->
+
+    <!-- Spring Boot Test -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
 
     <!-- JUnit Platform Suite -->
     <dependency>
@@ -63,7 +119,7 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Cucumber -->
+    <!-- Cucumber — BDD-тестування -->
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-java</artifactId>
@@ -78,7 +134,6 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Spring Boot + Cucumber -->
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-spring</artifactId>
@@ -86,18 +141,41 @@
       <scope>test</scope>
     </dependency>
 
-
-    <!-- Tests -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-
   </dependencies>
 
+  <!-- ═══════════════════════════════════════════════════════════
+       BUILD CONFIGURATION
+       ═══════════════════════════════════════════════════════════ -->
   <build>
     <plugins>
+
+      <!-- ────────────────────────────────────────────────
+           Spring Boot Maven Plugin
+           ──────────────────────────────────────────────── -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+
+      <!-- ────────────────────────────────────────────────
+           Compiler — Java 21
+           ──────────────────────────────────────────────── -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.11.0</version>
+        <configuration>
+          <source>21</source>
+          <target>21</target>
+          <compilerArgs>
+            <arg>-Xlint:all</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
+
+      <!-- ────────────────────────────────────────────────
+           Checkstyle — перевірка стилю коду
+           ──────────────────────────────────────────────── -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -119,19 +197,9 @@
         </executions>
       </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
-        <configuration>
-          <source>21</source>
-          <target>21</target>
-          <compilerArgs>
-            <arg>-Xlint:all</arg>
-          </compilerArgs>
-        </configuration>
-      </plugin>
-
+      <!-- ────────────────────────────────────────────────
+           SpotBugs — статичний аналіз коду
+           ──────────────────────────────────────────────── -->
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
@@ -152,6 +220,9 @@
         </executions>
       </plugin>
 
+      <!-- ────────────────────────────────────────────────
+           Spotless — автоматичне форматування коду
+           ──────────────────────────────────────────────── -->
       <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
@@ -170,11 +241,9 @@
         </configuration>
       </plugin>
 
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-
+      <!-- ────────────────────────────────────────────────
+           Javadoc — генерація документації
+           ──────────────────────────────────────────────── -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -194,6 +263,7 @@
           </execution>
         </executions>
       </plugin>
+
     </plugins>
   </build>
 

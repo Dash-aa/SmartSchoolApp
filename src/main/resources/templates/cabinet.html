@@ -1,37 +1,333 @@
 <!DOCTYPE html>
-<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<html lang="uk" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
 <head>
-  <meta charset="UTF-8" />
-  <title>Кабінет</title>
-  <link rel="stylesheet" href="/css/style.css" />
+  <title>Особистий кабінет — SmartSchool</title>
 </head>
 <body>
-<header>
-  <div><strong>Smart School</strong></div>
-  <nav>
-    <a href="/">Головна</a>
-    <a href="/logout">Вихід</a>
-  </nav>
-</header>
 
-<main>
-  <div class="card">
-    <h2>Особистий кабінет</h2>
-    <p><b>Логін:</b> <span th:text="${user.login}"></span></p>
-    <p><b>Роль:</b> <span th:text="${user.role}"></span></p>
-    <p><b>ПІБ:</b> <span th:text="${user.fullName}"></span></p>
-    <p><b>Email:</b> <span th:text="${user.email}"></span></p>
-    <small class="muted">Доступ надано після автентифікації (R1.3, R2.2). Вихід — /logout (R1.11).</small>
+<div layout:fragment="content">
+
+  <!-- ═══════════════════════════════════
+       ВІТАЛЬНИЙ БЛОК
+       ═══════════════════════════════════ -->
+  <div class="cabinet-header mb-4">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <div class="d-flex align-items-center">
+          <div class="user-avatar me-3">
+            <i class="bi bi-person-fill"></i>
+          </div>
+          <div>
+            <h1 class="mb-1">
+              Вітаємо,
+              <span th:text="${user.fullName} ?: ${user.login}">Користувач</span>!
+            </h1>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <span class="badge bg-primary"
+                                  th:if="${user.role.name() == 'STUDENT'}">
+                                <i class="bi bi-mortarboard me-1"></i> Учень
+                            </span>
+              <span class="badge bg-success"
+                    th:if="${user.role.name() == 'TEACHER'}">
+                                <i class="bi bi-easel me-1"></i> Вчитель
+                            </span>
+              <span class="badge bg-warning text-dark"
+                    th:if="${user.role.name() == 'ADMIN'}">
+                                <i class="bi bi-gear-fill me-1"></i> Адміністратор
+                            </span>
+              <span class="text-muted small">
+                                <i class="bi bi-at"></i>
+                                <span th:text="${user.login}">login</span>
+                            </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <span class="text-muted small">
+                    <i class="bi bi-calendar3 me-1"></i>
+                    Сьогодні:
+                    <span class="fw-semibold" th:text="${#dates.format(#dates.createNow(), 'dd MMMM yyyy')}">07 травня 2026</span>
+                </span>
+      </div>
+    </div>
   </div>
 
-  <div class="card">
-    <h3>Навігація (приклад)</h3>
-    <ul>
-      <li><a href="/">Новини</a></li>
-      <li><span class="muted">Розклад (в розробці)</span></li>
-      <li><span class="muted">Оцінки (в розробці)</span></li>
-    </ul>
+  <!-- ═══════════════════════════════════
+       КАБІНЕТ УЧНЯ
+       ═══════════════════════════════════ -->
+  <div th:if="${user.role.name() == 'STUDENT'}">
+
+    <!-- Швидкі модулі -->
+    <h2 class="section-title mb-3">Швидкий доступ</h2>
+    <div class="row g-3 mb-4">
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile">
+          <div class="tile-icon bg-primary-light">
+            <i class="bi bi-calendar3"></i>
+          </div>
+          <h3>Розклад</h3>
+          <p class="text-muted small mb-0">Тижневий розклад занять</p>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile">
+          <div class="tile-icon bg-success-light">
+            <i class="bi bi-journal-bookmark-fill"></i>
+          </div>
+          <h3>Оцінки</h3>
+          <p class="text-muted small mb-0">Електронний щоденник</p>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile">
+          <div class="tile-icon bg-warning-light">
+            <i class="bi bi-pencil-square"></i>
+          </div>
+          <h3>Домашні завдання</h3>
+          <p class="text-muted small mb-0">Актуальні завдання</p>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile position-relative">
+          <div class="tile-icon bg-info-light">
+            <i class="bi bi-chat-dots-fill"></i>
+          </div>
+          <span class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger mt-3 me-3">
+                        2
+                    </span>
+          <h3>Повідомлення</h3>
+          <p class="text-muted small mb-0">Зв'язок з вчителями</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- Швидка статистика -->
+    <h2 class="section-title mb-3">Статистика успішності</h2>
+    <div class="row g-3 mb-4">
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <small class="text-muted">Середній бал</small>
+              <i class="bi bi-graph-up-arrow text-success"></i>
+            </div>
+            <h2 class="mb-0">9.2</h2>
+            <small class="text-success">
+              <i class="bi bi-arrow-up"></i> +0.3 за місяць
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <small class="text-muted">Кількість оцінок</small>
+              <i class="bi bi-list-check text-primary"></i>
+            </div>
+            <h2 class="mb-0">47</h2>
+            <small class="text-muted">за поточний семестр</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <small class="text-muted">Активні дз</small>
+              <i class="bi bi-clipboard-check text-warning"></i>
+            </div>
+            <h2 class="mb-0">3</h2>
+            <small class="text-muted">очікують виконання</small>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</main>
+
+  <!-- ═══════════════════════════════════
+       КАБІНЕТ ВЧИТЕЛЯ
+       ═══════════════════════════════════ -->
+  <div th:if="${user.role.name() == 'TEACHER'}">
+
+    <h2 class="section-title mb-3">Швидкий доступ</h2>
+    <div class="row g-3 mb-4">
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile">
+          <div class="tile-icon bg-primary-light">
+            <i class="bi bi-calendar3"></i>
+          </div>
+          <h3>Мій розклад</h3>
+          <p class="text-muted small mb-0">Розклад уроків</p>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile">
+          <div class="tile-icon bg-success-light">
+            <i class="bi bi-pencil-fill"></i>
+          </div>
+          <h3>Виставлення оцінок</h3>
+          <p class="text-muted small mb-0">Електронний журнал</p>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile">
+          <div class="tile-icon bg-warning-light">
+            <i class="bi bi-journal-plus"></i>
+          </div>
+          <h3>Домашні завдання</h3>
+          <p class="text-muted small mb-0">Створити нове дз</p>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile">
+          <div class="tile-icon bg-info-light">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <h3>Мій клас</h3>
+          <p class="text-muted small mb-0">Список учнів</p>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       КАБІНЕТ АДМІНІСТРАТОРА
+       ═══════════════════════════════════ -->
+  <div th:if="${user.role.name() == 'ADMIN'}">
+
+    <h2 class="section-title mb-3">Управління системою</h2>
+    <div class="row g-3 mb-4">
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile">
+          <div class="tile-icon bg-primary-light">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <h3>Користувачі</h3>
+          <p class="text-muted small mb-0">Управління акаунтами</p>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile">
+          <div class="tile-icon bg-success-light">
+            <i class="bi bi-mortarboard"></i>
+          </div>
+          <h3>Класи</h3>
+          <p class="text-muted small mb-0">Створення та редагування</p>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile">
+          <div class="tile-icon bg-warning-light">
+            <i class="bi bi-book-half"></i>
+          </div>
+          <h3>Предмети</h3>
+          <p class="text-muted small mb-0">Навчальні дисципліни</p>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile">
+          <div class="tile-icon bg-info-light">
+            <i class="bi bi-calendar3"></i>
+          </div>
+          <h3>Розклад</h3>
+          <p class="text-muted small mb-0">Формування розкладу</p>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile">
+          <div class="tile-icon bg-primary-light">
+            <i class="bi bi-list-check"></i>
+          </div>
+          <h3>Навчальний план</h3>
+          <p class="text-muted small mb-0">Години на тиждень</p>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile">
+          <div class="tile-icon bg-success-light">
+            <i class="bi bi-person-workspace"></i>
+          </div>
+          <h3>Навантаження</h3>
+          <p class="text-muted small mb-0">Призначення вчителів</p>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile">
+          <div class="tile-icon bg-warning-light">
+            <i class="bi bi-megaphone-fill"></i>
+          </div>
+          <h3>Оголошення</h3>
+          <p class="text-muted small mb-0">Публікація новин</p>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <a href="#" class="cabinet-tile">
+          <div class="tile-icon bg-info-light">
+            <i class="bi bi-bar-chart-fill"></i>
+          </div>
+          <h3>Звіти</h3>
+          <p class="text-muted small mb-0">Статистика по школі</p>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       ОСОБИСТІ ДАНІ (для всіх)
+       ═══════════════════════════════════ -->
+  <div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+            <span>
+                <i class="bi bi-person-vcard me-2 text-primary"></i>
+                Особисті дані
+            </span>
+      <button class="btn btn-sm btn-outline-primary">
+        <i class="bi bi-pencil me-1"></i> Редагувати
+      </button>
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <small class="text-muted d-block">Логін</small>
+          <span class="fw-semibold" th:text="${user.login}">login</span>
+        </div>
+        <div class="col-md-6">
+          <small class="text-muted d-block">Роль</small>
+          <span class="fw-semibold" th:text="${user.role}">role</span>
+        </div>
+        <div class="col-md-6">
+          <small class="text-muted d-block">ПІБ</small>
+          <span class="fw-semibold" th:text="${user.fullName} ?: '—'">name</span>
+        </div>
+        <div class="col-md-6">
+          <small class="text-muted d-block">Email</small>
+          <span class="fw-semibold" th:text="${user.email} ?: '—'">email</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 </body>
 </html>

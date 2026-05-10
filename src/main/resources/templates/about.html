@@ -1,25 +1,155 @@
 <!DOCTYPE html>
-<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<html lang="uk" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
 <head>
-  <meta charset="UTF-8" />
-  <title>Контакти</title>
-  <link rel="stylesheet" href="/css/style.css" />
+  <title>Контакти — SmartSchool</title>
 </head>
 <body>
-<header>
-  <div><strong th:text="${schoolName}">Школа</strong></div>
-  <nav>
-    <a href="/">Головна</a>
-    <a href="/login">Вхід</a>
-  </nav>
-</header>
 
-<main>
-  <div class="card">
-    <h2>Інформація про школу</h2>
-    <p th:text="${contacts}">Контакти</p>
-    <small class="muted">Розділ відповідає вимозі R1.15.</small>
+<div layout:fragment="content">
+
+  <!-- ═══════════════════════════════════
+       ЗАГОЛОВОК
+       ═══════════════════════════════════ -->
+  <div class="text-center mb-5">
+    <i class="bi bi-building fs-1 text-primary"></i>
+    <h1 class="mt-2">Інформація про школу</h1>
+    <p class="text-muted">Контактні дані та реквізити навчального закладу</p>
   </div>
-</main>
+
+  <!-- ═══════════════════════════════════
+       ОСНОВНА ІНФОРМАЦІЯ
+       ═══════════════════════════════════ -->
+  <div class="row g-3 mb-4">
+
+    <!-- Email -->
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body d-flex align-items-center">
+          <div class="flex-shrink-0 me-3">
+            <div class="contact-icon">
+              <i class="bi bi-envelope-fill"></i>
+            </div>
+          </div>
+          <div>
+            <small class="text-muted d-block">Електронна пошта</small>
+            <a href="mailto:office@school.ua"
+               class="text-decoration-none fw-semibold fs-5">
+              office@school.ua
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Телефон -->
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body d-flex align-items-center">
+          <div class="flex-shrink-0 me-3">
+            <div class="contact-icon">
+              <i class="bi bi-telephone-fill"></i>
+            </div>
+          </div>
+          <div>
+            <small class="text-muted d-block">Телефон</small>
+            <a href="tel:+380000000000"
+               class="text-decoration-none fw-semibold fs-5">
+              +38 (000) 000-00-00
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Адреса -->
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body d-flex align-items-center">
+          <div class="flex-shrink-0 me-3">
+            <div class="contact-icon">
+              <i class="bi bi-geo-alt-fill"></i>
+            </div>
+          </div>
+          <div>
+            <small class="text-muted d-block">Адреса</small>
+            <span class="fw-semibold fs-5">м. Суми, вул. Шкільна, 15</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Графік -->
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body d-flex align-items-center">
+          <div class="flex-shrink-0 me-3">
+            <div class="contact-icon">
+              <i class="bi bi-clock-fill"></i>
+            </div>
+          </div>
+          <div>
+            <small class="text-muted d-block">Графік роботи</small>
+            <span class="fw-semibold fs-5">Пн–Пт, 8:00–17:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       ПРО ШКОЛУ
+       ═══════════════════════════════════ -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="bi bi-info-circle me-2 text-primary"></i>
+      Про навчальний заклад
+    </div>
+    <div class="card-body">
+      <p class="mb-3">
+        Сумський заклад загальної середньої освіти І–ІІІ ступенів №____ —
+        сучасний навчальний заклад, що поєднує якісну освіту з інноваційними технологіями.
+      </p>
+      <p class="mb-0">
+        Школа активно впроваджує цифрові інструменти для організації навчального процесу,
+        забезпечуючи зручний доступ до навчальних матеріалів, оцінок та комунікації між
+        учасниками освітнього процесу.
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       АДМІНІСТРАЦІЯ
+       ═══════════════════════════════════ -->
+  <div class="card">
+    <div class="card-header">
+      <i class="bi bi-people-fill me-2 text-primary"></i>
+      Адміністрація школи
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="staff-item">
+            <small class="text-muted d-block">Директор</small>
+            <span class="fw-semibold">Прізвище І.П.</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="staff-item">
+            <small class="text-muted d-block">Заступник з навчальної роботи</small>
+            <span class="fw-semibold">Прізвище І.П.</span>
+            <small class="text-muted d-block">Заступник з навчальної роботи</small>
+            <span class="fw-semibold">Прізвище І.П.</span>
+            <small class="text-muted d-block">Заступник з навчально-виховної роботи</small>
+            <span class="fw-semibold">Прізвище І.П.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 </body>
 </html>

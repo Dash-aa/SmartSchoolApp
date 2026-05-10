@@ -1,69 +1,131 @@
 <!DOCTYPE html>
-<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<html lang="uk" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
 <head>
-  <meta charset="UTF-8" />
-  <title>Реєстрація</title>
-  <link rel="stylesheet" href="/css/style.css" />
+  <title>Реєстрація — SmartSchool</title>
 </head>
 <body>
-<header>
-  <div><strong>Smart School</strong></div>
-  <nav>
-    <a href="/">Головна</a>
-    <a href="/login">Вхід</a>
-  </nav>
-</header>
 
-<main>
-  <div class="card">
+<div layout:fragment="content">
+
+  <div class="form-card">
+    <div class="text-center mb-4">
+      <i class="bi bi-person-plus-fill fs-1 text-primary"></i>
+    </div>
+
     <h2>Реєстрація</h2>
-    <p class="muted">Створення акаунту з вибором ролі (R1.10, R1.13)</p>
+    <p class="subtitle">Створіть обліковий запис у системі</p>
 
-    <p class="error" th:if="${formError}" th:text="${formError}"></p>
+    <!-- Загальна помилка форми -->
+    <div th:if="${formError}" class="alert alert-danger d-flex align-items-center" role="alert">
+      <i class="bi bi-exclamation-circle-fill me-2"></i>
+      <span th:text="${formError}">Помилка реєстрації</span>
+    </div>
 
     <form method="post" th:object="${registerForm}">
-      <div class="form-row">
-        <label>Логін</label>
-        <input th:field="*{login}" placeholder="student_new" />
-        <small class="error" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></small>
+
+      <div class="mb-3">
+        <label class="form-label">
+          <i class="bi bi-person me-1"></i> Логін
+        </label>
+        <input type="text"
+               class="form-control"
+               th:field="*{login}"
+               placeholder="Наприклад: student_new"
+               autofocus />
+        <small class="text-danger d-block mt-1"
+               th:if="${#fields.hasErrors('login')}"
+               th:errors="*{login}"></small>
       </div>
 
-      <div class="form-row">
-        <label>ПІБ</label>
-        <input th:field="*{fullName}" placeholder="Глов’як Дар'я" />
-        <small class="error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></small>
+      <div class="mb-3">
+        <label class="form-label">
+          <i class="bi bi-card-text me-1"></i> ПІБ
+        </label>
+        <input type="text"
+               class="form-control"
+               th:field="*{fullName}"
+               placeholder="Прізвище Ім'я По-батькові" />
+        <small class="text-danger d-block mt-1"
+               th:if="${#fields.hasErrors('fullName')}"
+               th:errors="*{fullName}"></small>
       </div>
 
-      <div class="form-row">
-        <label>Email (необов'язково)</label>
-        <input th:field="*{email}" placeholder="name@school.ua" />
-        <small class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+      <div class="mb-3">
+        <label class="form-label">
+          <i class="bi bi-envelope me-1"></i>
+          Email <span class="text-muted fw-normal">(необов'язково)</span>
+        </label>
+        <input type="email"
+               class="form-control"
+               th:field="*{email}"
+               placeholder="name@school.ua" />
+        <small class="text-danger d-block mt-1"
+               th:if="${#fields.hasErrors('email')}"
+               th:errors="*{email}"></small>
       </div>
 
-      <div class="form-row">
-        <label>Роль</label>
-        <select th:field="*{role}">
+      <div class="mb-3">
+        <label class="form-label">
+          <i class="bi bi-person-badge me-1"></i> Роль
+        </label>
+        <select class="form-select" th:field="*{role}">
           <option value="" selected disabled>Оберіть роль</option>
-          <option th:each="r : ${roles}" th:value="${r}" th:text="${r}"></option>
+          <option th:each="r : ${roles}"
+                  th:value="${r}"
+                  th:text="${r}"></option>
         </select>
-        <small class="error" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></small>
+        <small class="text-danger d-block mt-1"
+               th:if="${#fields.hasErrors('role')}"
+               th:errors="*{role}"></small>
       </div>
 
-      <div class="form-row">
-        <label>Пароль</label>
-        <input th:field="*{password}" type="password" placeholder="Напр.: Student!1234" />
-        <small class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+      <div class="mb-3">
+        <label class="form-label">
+          <i class="bi bi-lock me-1"></i> Пароль
+        </label>
+        <input type="password"
+               class="form-control"
+               th:field="*{password}"
+               placeholder="Мінімум 8 символів" />
+        <small class="text-danger d-block mt-1"
+               th:if="${#fields.hasErrors('password')}"
+               th:errors="*{password}"></small>
       </div>
 
-      <div class="form-row">
-        <label>Повтор паролю</label>
-        <input th:field="*{confirmPassword}" type="password" />
-        <small class="error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></small>
+      <div class="mb-4">
+        <label class="form-label">
+          <i class="bi bi-lock-fill me-1"></i> Підтвердження пароля
+        </label>
+        <input type="password"
+               class="form-control"
+               th:field="*{confirmPassword}"
+               placeholder="Повторіть пароль" />
+        <small class="text-danger d-block mt-1"
+               th:if="${#fields.hasErrors('confirmPassword')}"
+               th:errors="*{confirmPassword}"></small>
       </div>
 
-      <button type="submit">Зареєструватися</button>
+      <button type="submit" class="btn btn-primary w-100 btn-lg">
+        <i class="bi bi-check-circle me-2"></i> Зареєструватися
+      </button>
     </form>
+
+    <hr class="my-4">
+
+    <div class="text-center">
+      <small class="text-muted">
+        Вже маєте обліковий запис?
+      </small>
+      <br>
+      <a th:href="@{/login}" class="text-decoration-none fw-semibold">
+        Увійти
+      </a>
+    </div>
   </div>
-</main>
+
+</div>
+
 </body>
 </html>
